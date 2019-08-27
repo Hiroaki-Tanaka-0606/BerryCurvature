@@ -1,8 +1,8 @@
 #include <iostream>
 #include <stdio.h>
 #include <string.h>
-#include "variables_ext.h"
-#include "utils.h"
+#include "variables_ext.hpp"
+#include "utils.hpp"
 using namespace std;
 void load_error(int row){	
 	printf("Error in loading %d%s line\n",row,ordinalSuffix[ordinalSuffix_index(row)]);
@@ -11,7 +11,7 @@ void parse_error(int row){
 	printf("Error in parsing %d%s line\n",row,ordinalSuffix[ordinalSuffix_index(row)]);
 }
 
-int loadInput(FILE* input){
+int loadInput(FILE* input, bool isEigen){
 	//load input
 	char* line=new char[buffer_length];
 	char* fgets_status;
@@ -33,8 +33,8 @@ int loadInput(FILE* input){
 	printf("Number of parameters: %d\n",N_params);
 
 	//second to (1+N_params)th line: parameters name and value
-	char** params_name=new char*[N_params];
-	double* params_value=new double[N_params];
+	params_name=new char*[N_params];
+	params_value=new double[N_params];
 	for(i=0;i<N_params;i++){
 		fgets_status=fgets(line,buffer_length,input);
 		if(fgets_status==NULL){
@@ -89,7 +89,20 @@ int loadInput(FILE* input){
 		row++;
 	}
 
-	//(3+N_params+N)th to (5+N_params+N)th line: k range (start, stop, split)
+	//if isEigen==false (calculation of Berry curvature), skip 3 rows (k range of eigenvalue calculation)
+	if(isEigen==false){
+		for(i=0;i<3;i++){
+			fgets_status=fgets(line,buffer_length,input);
+			if(fgets_status==NULL){
+				load_error(row);
+				return -1;
+			}
+			row++;
+		}
+	}
+	
+	//(3+N_params+N)th to (5+N_params+N)th line: k range for eigenvalu calculation (start, stop, split)
+	//in Berry curvature calculation, (6+N_params+N)th to (8+N_params+N)th line
 	//number of k points = split+1
 	//n-th k point = start+(stop-start)*(n-1)/split = (start*(split+1-n)+stop*(n-1))/split
 	//n=1,2,...,split+1
@@ -112,6 +125,34 @@ int loadInput(FILE* input){
 		printf(krangeOutput_format,i,k_start[i],k_stop[i],k_split[i]+1);
 		row++;
 	}
+
+	//if isEigen==true (calculation of eigenvalue), skip 3 rows (k range of Berry curvature calculation)
+	if(isEigen==true){
+		for(i=0;i<3;i++){
+			fgets_status=fgets(line,buffer_length,input);
+			if(fgets_status==NULL){
+				load_error(row);
+				return -1;
+			}
+			row++;
+		}
+	}
+
+	//(9+N_params+N)th line: delta k
+	fgets_status=fgets(line,buffer_length,input);
+	if(fgets_status==NULL){
+		load_error(row);
+		return -1;
+	}
+	sscanf_status=sscanf(line, "%lf", &delta_k);
+	if(sscanf_status!=1){
+		parse_error(row);
+		return -1;
+	}
+	char deltakOutput_format[format_length];
+	sprintf(deltakOutput_format,"Delta k: %s\n",realNumber_format);
+	printf(deltakOutput_format,delta_k);
+	row++;
 	
 	return 1;
 }

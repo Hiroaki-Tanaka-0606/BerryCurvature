@@ -1,4 +1,4 @@
-#include "variables_ext.h"
+#include "variables_ext.hpp"
 void initialize(){
 	buffer_length=1024;
 	fileName_default=(char*)"input.dat";
@@ -12,4 +12,7 @@ void initialize(){
 	ordinalSuffix[2]=(char*)"rd";
 	ordinalSuffix[3]=(char*)"th";
 	realNumber_format=(char*)"%12.5e";
+	auxParameter_length=4;
+	auxParameter_letters=(char*)"abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ";
+	auxParameter_count=256;
 }

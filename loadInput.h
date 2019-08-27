@@ -1,1 +1,0 @@
-int loadInput(FILE* input);
