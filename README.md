@@ -32,6 +32,21 @@ kz      kx-I*ky   (-1)*a+b  0         #The third row
 kx+I*ky (-1)*kz   0         (-1)*a-b  #The fourth row
 ```
 - Several space letters are put between each matrix element and no space letter is put in one matrix element.
-- You can use **parameters** (defined in the parameters section), **kx,ky,kz** (coordinates of a wave vector), **I** (the imaginary unit), real numbers, **+-\*/** (binary operators), **()** (parentheses) when you specity matrix elements.
+- You can use **parameters** (defined in the parameters section), **kx, ky, kz** (coordinates of a wave vector), **I** (the imaginary unit), real numbers (**x.yy** format is ok, **x.yye+01** is not), **+-\*/** (binary operators), **()** (parentheses) when you specity matrix elements.
   - When you use negative real numbers, you must enclose the number by parentheses to distinguish it from a minus operator (see the above example).
-
+  
+### k range section for eigenvalue calculation (ll.(3+N_params+N)-(5+N_params+N))
+These three lines in this section represent kx, ky, kz range of calculation.
+```
+0  0 0  #kx range (double start, double stop, int split)
+-1 1 10 #ky range
+-2 2 20 #kz range
+```
+This program split the range **[start, stop]** into ```split``` pieces and calculation is done in ```split```+1 points.
+```
+ [Index of k point] 1    2    3   --- n-1     n 
+ [Index of piece]   | #1 | #2 |   ---  | #n-1 | 
+ [Value of k point] i   i+d  i+2d --- f-d     f 
+i=start, f=stop, d=(stop-start)/split, n=split+1
+```
+If ```split``` is zero, calculation is done in case of **k=start**.
