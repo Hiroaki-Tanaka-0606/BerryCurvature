@@ -3,8 +3,8 @@ Calculate energy eigenvalue and Berry curvature of a matrix Hamiltonian
 
 ## Usage
 ```
-$ eigen.o INPUT_FILE
-$ berry.o INPUT_FILE
+$ ./eigen.o INPUT_FILE
+$ ./berry.o INPUT_FILE
 ```
 The default name of the input file (used when missing the argument ```INPUT_FILE```) is **input.dat** (defined in **initialize.cpp**).
 
@@ -32,6 +32,6 @@ kz      kx-I*ky   (-1)*a+b  0         #The third row
 kx+I*ky (-1)*kz   0         (-1)*a-b  #The fourth row
 ```
 - Several space letters are put between each matrix element and no space letter is put in one matrix element.
-- You can use **parameters** (defined in the parameters section), **kx,ky,kz** (coordinates of a wave vector), **I** (the imaginary unit), real numbers, **+-\*/** (binary operators), **()** (parentheses).
-  - When you use negative real numbers, you must enclose the number by parentheses to distinguish a minus operator (see the above example).
+- You can use **parameters** (defined in the parameters section), **kx,ky,kz** (coordinates of a wave vector), **I** (the imaginary unit), real numbers, **+-\*/** (binary operators), **()** (parentheses) when you specity matrix elements.
+  - When you use negative real numbers, you must enclose the number by parentheses to distinguish it from a minus operator (see the above example).
 
