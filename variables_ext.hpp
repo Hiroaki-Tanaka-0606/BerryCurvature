@@ -1,3 +1,5 @@
+#include <complex>
+using namespace std;
 //description of there variables are in variables.hpp
 //constants
 extern int buffer_length;
@@ -20,4 +22,14 @@ extern double* k_start;
 extern double* k_stop;
 extern int* k_split;
 extern double delta_k;
-
+extern char** allParams_name;
+extern complex<double>* allParams_value;
+//variables for zheev
+extern char JOBZ;
+extern char UPLO;
+extern complex<double>** matrix;
+extern double* W;
+extern complex<double>* WORK;
+extern int LWORK;
+extern double* RWORK;
+extern int INFO;

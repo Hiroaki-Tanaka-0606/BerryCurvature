@@ -30,7 +30,7 @@ int loadInput(FILE* input, bool isEigen){
 		parse_error(row);
 		return -1;
 	}
-	printf("Number of parameters: %d\n",N_params);
+	printf("#Number of parameters: %d\n",N_params);
 
 	//second to (1+N_params)th line: parameters name and value
 	params_name=new char*[N_params];
@@ -48,7 +48,7 @@ int loadInput(FILE* input, bool isEigen){
 			return -1;
 		}
 		char parameterOutput_format[format_length];
-		sprintf(parameterOutput_format,"%%d%%s parameter: %%s = %s\n",realNumber_format);
+		sprintf(parameterOutput_format,"#%%d%%s parameter: %%s = %s\n",realNumber_format);
 		printf(parameterOutput_format,i+1,ordinalSuffix[ordinalSuffix_index(i+1)],params_name[i],params_value[i]);
 		row++;
 	}
@@ -65,7 +65,7 @@ int loadInput(FILE* input, bool isEigen){
 		return -1;
 	}
 	row++;
-	printf("Matrix size: %d\n",N);
+	printf("#Matrix size: %d\n",N);
 
 	//(2+N_params+1)th to (2+N_params+N)th line: matrix
 	matrix_string=new char**[N];
@@ -78,7 +78,7 @@ int loadInput(FILE* input, bool isEigen){
 				parse_error(row);
 				return -1;
 			}
-			printf("Matrix[%d][%d] = %s\n",i,j,matrix_string[i][j]);
+			printf("#Matrix[%d][%d] = %s\n",i,j,matrix_string[i][j]);
 		}
 		//pass to the end of the line
 		fgets_status=fgets(line,buffer_length,input);
@@ -120,22 +120,20 @@ int loadInput(FILE* input, bool isEigen){
 			parse_error(row);
 			return -1;
 		}
+		//k_split[i] should be positive or zero
+		if(k_split[i]<0){
+			printf("Error: k[%d] must be positive or zero\n",i);
+			return -1;
+		}
 		char krangeOutput_format[format_length];
-		sprintf(krangeOutput_format,"k[%%d] axis: %s to %s, %%d points\n",realNumber_format,realNumber_format);
+		sprintf(krangeOutput_format,"#k[%%d] axis: %s to %s, %%d points\n",realNumber_format,realNumber_format);
 		printf(krangeOutput_format,i,k_start[i],k_stop[i],k_split[i]+1);
 		row++;
 	}
 
-	//if isEigen==true (calculation of eigenvalue), skip 3 rows (k range of Berry curvature calculation)
+	//if isEigen==true (calculation of eigenvalue), end of the input (delta_k is not necessary in eigenvalue calculation)
 	if(isEigen==true){
-		for(i=0;i<3;i++){
-			fgets_status=fgets(line,buffer_length,input);
-			if(fgets_status==NULL){
-				load_error(row);
-				return -1;
-			}
-			row++;
-		}
+		return 1;
 	}
 
 	//(9+N_params+N)th line: delta k
@@ -150,7 +148,7 @@ int loadInput(FILE* input, bool isEigen){
 		return -1;
 	}
 	char deltakOutput_format[format_length];
-	sprintf(deltakOutput_format,"Delta k: %s\n",realNumber_format);
+	sprintf(deltakOutput_format,"#Delta k: %s\n",realNumber_format);
 	printf(deltakOutput_format,delta_k);
 	row++;
 	

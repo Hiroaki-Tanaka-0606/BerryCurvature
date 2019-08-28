@@ -1,3 +1,5 @@
+#include <complex>
+using namespace std;
 //constants
 int buffer_length; //length of buffer when reading one line from input file
 char* fileName_default; //default name of input file
@@ -20,3 +22,14 @@ double* k_start; //start of k range
 double* k_stop; //end of k range
 int* k_split; //how many pieces k range is split into
 double delta_k; //delta k in difference approximation
+char** allParams_name; //params_name + kx,ky,kz,I
+complex<double>* allParams_value; //params_value + kx,ky,kz,I
+//variables for zheev
+char JOBZ;
+char UPLO;
+complex<double>** matrix;
+double* W;
+complex<double>* WORK;
+int LWORK;
+double* RWORK;
+int INFO;

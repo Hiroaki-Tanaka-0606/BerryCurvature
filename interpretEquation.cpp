@@ -189,6 +189,13 @@ int interpretEquation(char* equation, char** params_name, complex<double>* param
 	char* equation_current=new char[strlen(equation)+1];
 	strcpy(equation_current,equation);
 
+	//initial step: if real number, set the value to the result
+	//To avoid error in parsing "-1"
+	if(isRealNumber(equation)){
+		*result=(complex<double>)atof(equation);
+		return 1;
+	}
+	
 	//first step: resolve parentheses
 	int start,end;
 	int findParentheses_status;
@@ -259,12 +266,12 @@ int interpretEquation(char* equation, char** params_name, complex<double>* param
 		//get the value of left and right
 		getValue_status=getValue(leftName,params_name,params_value,auxParameter_name,auxParameter_value,auxParameter_next,&leftValue);
 		if(getValue_status!=1){
-			cout << "Error in interpretEquation, getting value of " << leftName << endl;
+			cout << "Error in interpretEquation, getting value of " << leftName << "(left, */)" << endl;
 			return -1;
 		}
 		getValue_status=getValue(rightName,params_name,params_value,auxParameter_name,auxParameter_value,auxParameter_next,&rightValue);
 		if(getValue_status!=1){
-			cout << "Error in interpretEquation, getting value of " << rightName << endl;
+			cout << "Error in interpretEquation, getting value of " << rightName << "(right, */)"  << endl;
 			return -1;
 		}
 
@@ -321,12 +328,12 @@ int interpretEquation(char* equation, char** params_name, complex<double>* param
 		//get the value of left and right
 		getValue_status=getValue(leftName,params_name,params_value,auxParameter_name,auxParameter_value,auxParameter_next,&leftValue);
 		if(getValue_status!=1){
-			cout << "Error in interpretEquation, getting value of " << leftName << endl;
+			cout << "Error in interpretEquation, getting value of " << leftName << "(left, +-)" << endl;
 			return -1;
 		}
 		getValue_status=getValue(rightName,params_name,params_value,auxParameter_name,auxParameter_value,auxParameter_next,&rightValue);
 		if(getValue_status!=1){
-			cout << "Error in interpretEquation, getting value of " << rightName << endl;
+			cout << "Error in interpretEquation, getting value of " << rightName << "(right, +-)" << endl;
 			return -1;
 		}
 
@@ -371,7 +378,7 @@ int interpretEquation(char* equation, char** params_name, complex<double>* param
 	//set the value to the result
 	getValue_status=getValue(equation_current,params_name,params_value,auxParameter_name,auxParameter_value,auxParameter_next,result);
 	if(getValue_status!=1){
-		cout << "Error in interpretEquation, getting value of " << equation_current << endl;
+		cout << "Error in interpretEquation, getting value of " << equation_current << "(last)" << endl;
 		return -1;
 	}
 	//cout << "interpretEquation result: " << *result << endl;
