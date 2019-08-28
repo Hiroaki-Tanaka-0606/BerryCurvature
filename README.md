@@ -55,7 +55,7 @@ If ```split``` is zero, calculation is done in case of **k=start**.
 ### k range section for Berry curvature calculation (ll.(6+N_params+N)-(8+N_params+N))
 The format is the same as above k range section.
 
-### Delta k section (l.(9+N_params+N))
+### Delta k section (l.(9+N_params+N), only for Berry curvature calculation)
 This section has only one row, representing **&Delta;k** (used in difference approximation).
 ```
 1e-2 #Delta k
