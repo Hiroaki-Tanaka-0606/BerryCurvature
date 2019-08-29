@@ -19,12 +19,13 @@ By diagonalization process, we get eigenvectors with phase difference **&psi;<su
 <p><img src="https://latex.codecogs.com/svg.latex?\fn_cm&space;e^{\text{i}\theta}\psi_n(k&plus;\Delta&space;k)=e^{\text{i}\theta}\Bigl(\psi_n(k)&plus;\Delta&space;k\cdot\nabla_k\psi_n(k)\Bigr)&plus;\mathcal{O}(\Delta&space;k^2)"></p>
 
 Taking the norm with **&psi;<sub>n</sub>(k)**,
-<p><img src="https://latex.codecogs.com/svg.latex?\fn_cm&space;\psi_n^*(k)e^{\text&space;i\theta}\psi_n(k&plus;\Delta&space;k)=e^{\text&space;i\theta}\Bigl(1&plus;\Delta&space;k\cdot\psi_n^*(k)\nabla_k\psi_n(k)\Bigr)&plus;\mathcal{O}(\Delta&space;k^2)"></p>
+<p><img src="https://latex.codecogs.com/svg.latex?\fn_cm&space;z\equiv\psi_n^*(k)e^{\text&space;i\theta}\psi_n(k&plus;\Delta&space;k)=e^{\text&space;i\theta}\Bigl(1&plus;\Delta&space;k\cdot\psi_n^*(k)\nabla_k\psi_n(k)\Bigr)&plus;\mathcal{O}(\Delta&space;k^2)"></p>
 
 If we neglect the first order of **&Delta;k**, we can get the phase factor **&theta;**
-<p><img src="https://latex.codecogs.com/svg.latex?\fn_cm&space;\theta=\arg\Bigl(\psi_n^*(k)e^{\text&space;i\theta}\psi_n(k&plus;\Delta&space;k)\Bigr)"></p>
+<p><img src="https://latex.codecogs.com/svg.latex?\fn_cm&space;\theta=\arg&space;z&plus;\mathcal{O}(\Delta&space;k)"></p>
 
-To get less approximate value, we need to evaluate **&psi;<sub>n</sub><sup>*</sup>(k)&nabla;<sub>k</sub>&psi;<sub>n</sub>(k)**. By orthonormalization condition of eigenvector **&psi;<sub>n</sub>(k)**,
+To get less approximate value, we need to evaluate **&alpha;=&psi;<sub>n</sub><sup>*</sup>(k)&nabla;<sub>k</sub>&psi;<sub>n</sub>(k)** (actually, **i&alpha;** is called Berry connection). By orthonormalization condition of eigenvector **&psi;<sub>n</sub>(k)**,
 <p><img src="https://latex.codecogs.com/svg.latex?\fn_cm&space;\nabla_k\Bigl(&\psi_n^*(k)\psi_n(k)\Bigr)=\psi_n^*(k)\nabla_k\psi_n(k)&plus;\Bigl(\psi_n^*(k)\nabla_k\psi_n(k)\Bigr)^*=0"></img>
 
-Therefore, **&psi;<sub>n</sub><sup>*</sup>(k)&nabla;<sub>k</sub>&psi;<sub>n</sub>(k)** is purely imaginal number.
+Therefore, **&alpha;** is purely imaginal number. Defining **i&delta;=&alpha;&Delta;k** (**delta** is a real number),
+<p><img src="https://latex.codecogs.com/svg.latex?\fn_cm&space;z=e^{\text&space;i\theta}(1&plus;\text&space;i\delta)&plus;\mathcal{O}(\Delta&space;k^2)=(\cos\theta-\delta\sin\theta)&plus;\text&space;i(\sin\theta&plus;\delta\cos\theta)&plus;\mathcal{O}(\Delta&space;k^2)"></p>
