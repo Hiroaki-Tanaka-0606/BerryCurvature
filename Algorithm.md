@@ -24,8 +24,4 @@ Taking the norm with **&psi;<sub>n</sub>(k)**,
 If we neglect the first order of **&Delta;k**, we can get the phase factor **&theta;**
 <p><img src="https://latex.codecogs.com/svg.latex?\fn_cm&space;\theta=\arg&space;z&plus;\mathcal{O}(\Delta&space;k)"></p>
 
-To get less approximate value, we need to evaluate **&alpha;=&psi;<sub>n</sub><sup>*</sup>(k)&nabla;<sub>k</sub>&psi;<sub>n</sub>(k)** (actually, **i&alpha;** is called Berry connection). By orthonormalization condition of eigenvector **&psi;<sub>n</sub>(k)**,
-<p><img src="https://latex.codecogs.com/svg.latex?\fn_cm&space;\nabla_k\Bigl(&\psi_n^*(k)\psi_n(k)\Bigr)=\psi_n^*(k)\nabla_k\psi_n(k)&plus;\Bigl(\psi_n^*(k)\nabla_k\psi_n(k)\Bigr)^*=0"></img>
-
-Therefore, **&alpha;** is purely imaginal number. Defining **i&delta;=&alpha;&Delta;k** (**delta** is a real number),
-<p><img src="https://latex.codecogs.com/svg.latex?\fn_cm&space;z=e^{\text&space;i\theta}(1&plus;\text&space;i\delta)&plus;\mathcal{O}(\Delta&space;k^2)=(\cos\theta-\delta\sin\theta)&plus;\text&space;i(\sin\theta&plus;\delta\cos\theta)&plus;\mathcal{O}(\Delta&space;k^2)"></p>
+However, since the first order of **&Delta;k** is neglected, the calculation of the wave vector gradient by differencial approximation result in the **O(1)** difference. To calculate the differenccial approximation in **O(&Delta;k)**, we need to get the phase factor **&theta;** with difference of **O(&Delta;k<sup>2</sup>)**.
