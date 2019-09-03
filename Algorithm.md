@@ -24,7 +24,7 @@ Taking the norm with **&psi;<sub>n</sub>(k)**,
 If we neglect the first order of **&Delta;k**, we can get the phase factor **&theta;**
 <p><img src="https://latex.codecogs.com/svg.latex?\fn_cm&space;\theta=\arg&space;z&plus;\mathcal{O}(\Delta&space;k)"></p>
 
-However, since the first order of **&Delta;k** is neglected, the calculation of the wave vector gradient by differencial approximation seems to result in the **O(1)** difference. However, you can prove that it actually results in **O(&Delta;K)** difference. You can see the proof in the following section.
+Since the first order of **&Delta;k** is neglected, the calculation of the wave vector gradient by differencial approximation seems to result in the **O(1)** difference. However, you can prove that it actually results in **O(&Delta;K)** difference. You can see the proof in the following section.
 
 By orthonormalization condition of the eigenvector **&psi;<sub>n</sub>(k)**,
 <p><img src="https://latex.codecogs.com/svg.latex?\fn_cm&space;\frac{\partial}{\partial&space;x}\Bigl(\psi_n^*(k)\psi_n(k)\Bigr)=\psi_n^*(k)\frac{\partial}{\partial&space;x}\psi_n(k)&plus;\left(\psi_n^*(k)\frac{\partial}{\partial&space;x}\psi_n(k)\right)^*=0"></p>
@@ -36,25 +36,18 @@ and consider the argument of **z** in the first order of **&Delta;k**,
 <p><img src="https://latex.codecogs.com/svg.latex?\fn_cm&space;\arg&space;z=\theta&plus;\alpha_x\Delta&space;k&plus;\mathcal{O}(\Delta&space;k^2)"></p>
 
 Using **arg z** as an approximate value of **&theta;**,
-<p><img src="https://latex.codecogs.com/gif.latex?\fn_cm&space;\begin{align*}&space;\psi_\text{approx}(k&plus;e_x\Delta&space;k)&\equiv&space;e^{-\text&space;i\arg&space;z}e^{\text&space;i\theta}\psi_n(k&plus;e_x\Delta&space;k)\\&space;&=(1-\text&space;i\alpha_x\Delta&space;k)\left(\psi_n(k)&plus;\Delta&space;k\frac{\partial}{\partial&space;x}\psi_n(k)\right)&plus;\mathcal{O}(\Delta&space;k^2)\\&space;&=\psi_n(k)&plus;\Delta&space;k\frac{\partial}{\partial&space;x}\psi_n(k)-\text&space;i\alpha_x\Delta&space;k\psi_n(k)&plus;\mathcal{O}(\Delta&space;k^2)&space;\end{align*}"></p>
+<p><img src="https://latex.codecogs.com/svg.latex?\fn_cm&space;\begin{align*}&space;\psi_\text{approx}(k&plus;e_x\Delta&space;k)&\equiv&space;e^{-\text&space;i\arg&space;z}e^{\text&space;i\theta}\psi_n(k&plus;e_x\Delta&space;k)\\&space;&=(1-\text&space;i\alpha_x\Delta&space;k)\left(\psi_n(k)&plus;\Delta&space;k\frac{\partial}{\partial&space;x}\psi_n(k)\right)&plus;\mathcal{O}(\Delta&space;k^2)\\&space;&=\psi_n(k)&plus;\Delta&space;k\frac{\partial}{\partial&space;x}\psi_n(k)-\text&space;i\alpha_x\Delta&space;k\psi_n(k)&plus;\mathcal{O}(\Delta&space;k^2)&space;\end{align*}"></p>
 
 In addition, we do the same calculation as **&psi;<sub>n</sub>(k+e<sub>x</sub>&Delta;k)** to **&psi;<sub>n</sub>(k-e<sub>x</sub>&Delta;k)**:
 <p><img src="https://latex.codecogs.com/svg.latex?\fn_cm&space;z^\prime\equiv\psi_n^*(k)e^{\text&space;i\theta^\prime}\psi_n(k-e_x\Delta&space;k),\&space;\&space;\arg&space;z^\prime=\theta^\prime-\alpha_x\Delta&space;k&plus;\mathcal{O}(\Delta&space;k^2)"></p>
 
 and use **arg z'** as an approximate value of **&theta;'**,
-<p><img src="https://latex.codecogs.com/gif.latex?\fn_cm&space;\begin{align*}&space;\psi_\text{approx}(k-e_x\Delta&space;k)&\equiv&space;e^{-\text&space;i\arg&space;z^\prime}e^{\text&space;i\theta^\prime}\psi_n(k-e_x\Delta&space;k)\\&space;&=\psi_n(k)-\Delta&space;k\frac{\partial}{\partial&space;x}\psi_n(k)&plus;\text&space;i\alpha_x\Delta&space;k\psi_n(k)&plus;\mathcal{O}(\Delta&space;k^2)&space;\end{align*}"></p>
+<p><img src="https://latex.codecogs.com/svg.latex?\fn_cm&space;\begin{align*}&space;\psi_\text{approx}(k-e_x\Delta&space;k)&\equiv&space;e^{-\text&space;i\arg&space;z^\prime}e^{\text&space;i\theta^\prime}\psi_n(k-e_x\Delta&space;k)\\&space;&=\psi_n(k)-\Delta&space;k\frac{\partial}{\partial&space;x}\psi_n(k)&plus;\text&space;i\alpha_x\Delta&space;k\psi_n(k)&plus;\mathcal{O}(\Delta&space;k^2)&space;\end{align*}"></p>
 
 insert in the center difference formula,
-<p><img src="https://latex.codecogs.com/gif.latex?\fn_cm&space;\frac{\psi_\text{approx}(k&plus;e_x\Delta&space;k)-\psi_\text{approx}(k-e_x\Delta&space;k)}{2\Delta&space;k}=\frac{\partial}{\partial&space;x}\psi_n(k)&plus;\text&space;i\alpha_x\psi_n(k)&plus;\mathcal{O}(\Delta&space;k)"></p>
+<p><img src="https://latex.codecogs.com/svg.latex?\fn_cm&space;\frac{\psi_\text{approx}(k&plus;e_x\Delta&space;k)-\psi_\text{approx}(k-e_x\Delta&space;k)}{2\Delta&space;k}=\frac{\partial}{\partial&space;x}\psi_n(k)&plus;\text&space;i\alpha_x\psi_n(k)&plus;\mathcal{O}(\Delta&space;k)"></p>
 
+Finally, put it in the definition formula of Berry curvature then we can calculate **&Omega;<sub>n,x</sub>(k)**:
+<p><img src="https://latex.codecogs.com/svg.latex?\fn_cm&space;\begin{align*}&space;\Omega_{n,x}(k)&=-2\text{Im}\Bigl(\chi_{n,y}^*(k)\chi_{n,z}(k)\Bigr)\\&space;&=-2\text{Im}\left[\left(\frac{\partial}{\partial&space;y}&space;\psi_n(k)-\text&space;i\alpha_y\psi_n(k)\right&space;)^*\left(\frac{\partial}{\partial&space;z}&space;\psi_n(k)-\text&space;i\alpha_z\psi_n(k)\right&space;)\right]\\&space;&=-2\text{Im}\left[\frac{\partial}{\partial&space;y}\psi_n^*(k)\frac{\partial}{\partial&space;z}\psi_n(k)&space;&plus;\text&space;i\alpha_y\psi_n^*(k)\frac{\partial}{\partial&space;z}\psi_n(k)-\text&space;i\alpha_z\psi_n(k)\frac{\partial}{\partial&space;y}\psi_n^*(k)&plus;\alpha_y\alpha_z\psi_n^*(k)\psi_n(k)\right&space;]\\&space;&=-2\text{Im}\left[\frac{\partial}{\partial&space;y}\psi_n^*(k)\frac{\partial}{\partial&space;z}\psi_n(k)-\alpha_y\alpha_z&space;\right&space;]\\&space;&=-2\text{Im}\left(\frac{\partial}{\partial&space;y}\psi_n^*(k)\frac{\partial}{\partial&space;z}\psi_n(k)&space;\right&space;)\&space;\&space;(\because&space;\alpha_y,\&space;\alpha_z\in\mathbb{R})&space;\end{align*}"></p>
 
-memo
-
-We can also calculate the differential approximation from **&psi;<sub>n</sub>(k-e<sub>x</sub>&Delta;k)** and **&psi;<sub>n</sub>(k)**
-<p><img src="https://latex.codecogs.com/svg.latex?\fn_cm&space;\frac{\psi_n(k-e_x\Delta&space;k)-\psi_n(k)}{-\Delta&space;k}=\frac{\psi_n(k&plus;e_x\Delta&space;k)-\psi_n(k)}{\Delta&space;k}&plus;\mathcal{O}(\Delta&space;k)"></p>
-<p><img src="https://latex.codecogs.com/svg.latex?\fn_cm&space;\therefore&space;\psi_n(k&plus;e_x\Delta&space;k)&plus;\psi_n(k-e_x\Delta&space;k)=2\psi_n(k)&plus;\mathcal{O}(\Delta&space;k^2)"></p>
-
-From these above equations **&theta;+&theta;'=arg z+arg z'+O(&Delta; k<sup>2</sup>)**, then
-<p><img src="https://latex.codecogs.com/svg.latex?\fn_cm&space;\begin{align*}&space;\psi_n(k&plus;e_x\Delta&space;k)\psi_n(k-e_x\Delta&space;k)&=e^{-\text&space;i(\theta&plus;\theta^\prime)}\Bigl(e^{\text&space;i\theta}\psi_n(k&plus;e_x\Delta&space;k)\Bigr)\Bigl(e^{\text&space;i\theta^\prime}\psi_n(k-e_x\Delta&space;k)\Bigr)\\&space;&=e^{-\text&space;i(\arg&space;z&plus;\arg&space;z^\prime)}\Bigl(e^{\text&space;i\theta}\psi_n(k&plus;e_x\Delta&space;k)\Bigr)\Bigl(e^{\text&space;i\theta^\prime}\psi_n(k-e_x\Delta&space;k)\Bigr)&plus;\mathcal{O}(\Delta&space;k^2)\\&space;&=\left(\frac{zz^\prime}{|z||z^\prime|}\right)^{-1}\Bigl(e^{\text&space;i\theta}\psi_n(k&plus;e_x\Delta&space;k)\Bigr)\Bigl(e^{\text&space;i\theta^\prime}\psi_n(k-e_x\Delta&space;k)\Bigr)&plus;\mathcal{O}(\Delta&space;k^2)&space;\end{align*}"></p>
-
-Since we get the sum and the product of **&psi;<sub>n</sub>(k&pm;e<sub>x</sub>&Delta;k)**, we can obtain each value from the quadratic equation. Which is **&psi;<sub>n</sub>(k+e<sub>x</sub>&Delta;k)** and which is **&psi;<sub>n</sub>(k-e<sub>x</sub>&Delta;k)** are determined by the absolute value of **&psi;<sub>n</sub>(k&pm;e<sub>x</sub>&Delta;k)** (=the absolute value of **exp(i&theta;('))&psi;<sub>n</sub>(k&pm;e<sub>x</sub>&Delta;k)**).
+It means that **&alpha;** doesn't affect the calculation of Berry curvature **&Omega;<sub>n</sub>**. Actually, **-&\alpha;** is **Berry connection**, and it has one gauge indefinitenss. Above argument correspond to setting **&alpha;** to zero near k.
