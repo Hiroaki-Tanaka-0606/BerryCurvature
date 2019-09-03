@@ -19,7 +19,7 @@ By diagonalization process, we get eigenvectors with phase difference **&psi;<su
 <p><img src="https://latex.codecogs.com/svg.latex?\fn_cm&space;e^{\text&space;i\theta}\psi_n(k&plus;e_x\Delta&space;k)=e^{\text&space;i\theta}\left(\psi_n(k)&plus;\Delta&space;k\cdot\frac{\partial}{\partial&space;x}\psi_n(k)&space;\right&space;)&plus;\mathcal{O}(\Delta&space;k^2)"></p>
 
 Taking the norm with **&psi;<sub>n</sub>(k)**,
-<p><img src="https://latex.codecogs.com/svg.latex?\fn_cm&space;z\equiv\psi_n^*(k)e^{\text&space;i\theta}\psi_n(k&plus;e_x\Delta&space;k)=e^{\text&space;i\theta}\left(1&plus;\Delta&space;k\cdot\psi_n(k)\frac{\partial}{\partial&space;x}\psi_n(k)&space;\right&space;)&plus;\mathcal{O}(\Delta&space;k^2)"></p>
+<p><img src="https://latex.codecogs.com/svg.latex?\fn_cm&space;z\equiv\psi_n^*(k)e^{\text&space;i\theta}\psi_n(k&plus;e_x\Delta&space;k)=e^{\text&space;i\theta}\left(1&plus;\Delta&space;k\cdot\psi_n^*(k)\frac{\partial}{\partial&space;x}\psi_n(k)&space;\right&space;)&plus;\mathcal{O}(\Delta&space;k^2)"></p>
 
 If we neglect the first order of **&Delta;k**, we can get the phase factor **&theta;**
 <p><img src="https://latex.codecogs.com/svg.latex?\fn_cm&space;\theta=\arg&space;z&plus;\mathcal{O}(\Delta&space;k)"></p>
