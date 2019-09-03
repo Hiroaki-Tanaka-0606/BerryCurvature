@@ -10,8 +10,8 @@ To calculate the Berry curvature, we need to calculate the wave vector gradient 
 The above equation is transformed to
 <p><img src="https://latex.codecogs.com/svg.latex?\fn_cm&space;\Omega_n(k)=\text{i}\chi_n^*(k)\times\chi_n(k)=\begin{pmatrix}-2\text{Im}(\chi_{n,y}^*(k)\chi_{n,z}(k))&space;\\&space;-2\text{Im}(\chi_{n,z}^*(k)\chi_{n,x}(k))&space;\\&space;-2\text{Im}(\chi_{n,x}^*(k)\chi_{n,y}(k))\end{pmatrix}"></p>
 
-To calculate the wave vector gradient of eigenvector, we use differencial approximation. For the **x** derivative case
-<p><img src="https://latex.codecogs.com/svg.latex?\fn_cm&space;\chi_{n,x}(k)=\frac{\psi_n(k&plus;e_x\Delta&space;k)-\psi_n(k)}{\Delta&space;k}&plus;\mathcal{O}(\Delta&space;k)"></p>
+To calculate the wave vector gradient of eigenvector, we use differencial approximation. For the **x** derivative (center difference) case
+<p><img src="https://latex.codecogs.com/svg.latex?\fn_cm&space;\chi_{n,x}(k)=\frac{\psi_n(k&plus;e_x\Delta&space;k)-\psi_n(k-e_x\Delta&space;k)}{2\Delta&space;k}&plus;\mathcal{O}(\Delta&space;k^2)"></p>
 
 However, Both **&psi;<sub>n</sub>(k+e<sub>x</sub>&Delta;k)** and **&psi;<sub>n</sub>(k)** can not always be obtained by diagonalization process, because they have one degree of freedom in phase factor **exp(i&theta;)**. To get the smooth function **&psi;<sub>n</sub>(k)**, we need to adjust the phase. Here we show the algorithm to adjust the phase of **k+e<sub>x</sub>&Delta;k** to **k**.
 
@@ -24,19 +24,31 @@ Taking the norm with **&psi;<sub>n</sub>(k)**,
 If we neglect the first order of **&Delta;k**, we can get the phase factor **&theta;**
 <p><img src="https://latex.codecogs.com/svg.latex?\fn_cm&space;\theta=\arg&space;z&plus;\mathcal{O}(\Delta&space;k)"></p>
 
-However, since the first order of **&Delta;k** is neglected, the calculation of the wave vector gradient by differencial approximation result in the **O(1)** difference. To calculate the differenccial approximation in **O(&Delta;k)**, we need to get the phase factor **&theta;** with difference of **O(&Delta;k<sup>2</sup>)**.
+However, since the first order of **&Delta;k** is neglected, the calculation of the wave vector gradient by differencial approximation seems to result in the **O(1)** difference. However, you can prove that it actually results in **O(&Delta;K)** difference. You can see the proof in the following section.
 
 By orthonormalization condition of the eigenvector **&psi;<sub>n</sub>(k)**,
 <p><img src="https://latex.codecogs.com/svg.latex?\fn_cm&space;\frac{\partial}{\partial&space;x}\Bigl(\psi_n^*(k)\psi_n(k)\Bigr)=\psi_n^*(k)\frac{\partial}{\partial&space;x}\psi_n(k)&plus;\left(\psi_n^*(k)\frac{\partial}{\partial&space;x}\psi_n(k)\right)^*=0"></p>
 
 Therefore, **&psi;<sub>n</sub><sup>*</sup>(k) d/dx &psi;<sub>n</sub>(k)** is a pure imaginal number. Defining
-<p><img src="https://latex.codecogs.com/svg.latex?\fn_cm&space;\text&space;i\alpha=\psi_n^*(k)\frac{\partial}{\partial&space;x}\psi_n(k)\&space;\&space;(\alpha\in\mathbb{R})"></p>
+<p><img src="https://latex.codecogs.com/svg.latex?\fn_cm&space;\text&space;i\alpha_x=\psi_n^*(k)\frac{\partial}{\partial&space;x}\psi_n(k)\&space;\&space;(\alpha_x\in\mathbb{R})"></p>
 
 and consider the argument of **z** in the first order of **&Delta;k**,
-<p><img src="https://latex.codecogs.com/svg.latex?\fn_cm&space;\arg&space;z=\theta&plus;\alpha\Delta&space;k&plus;\mathcal{O}(\Delta&space;k^2)"></p>
+<p><img src="https://latex.codecogs.com/svg.latex?\fn_cm&space;\arg&space;z=\theta&plus;\alpha_x\Delta&space;k&plus;\mathcal{O}(\Delta&space;k^2)"></p>
+
+Using **arg z** as an approximate value of **&theta;**,
+<p><img src="https://latex.codecogs.com/gif.latex?\fn_cm&space;\begin{align*}&space;\psi_\text{approx}(k&plus;e_x\Delta&space;k)&\equiv&space;e^{-\text&space;i\arg&space;z}e^{\text&space;i\theta}\psi_n(k&plus;e_x\Delta&space;k)\\&space;&=(1-\text&space;i\alpha_x\Delta&space;k)\left(\psi_n(k)&plus;\Delta&space;k\frac{\partial}{\partial&space;x}\psi_n(k)\right)&plus;\mathcal{O}(\Delta&space;k^2)\\&space;&=\psi_n(k)&plus;\Delta&space;k\frac{\partial}{\partial&space;x}\psi_n(k)-\text&space;i\alpha_x\Delta&space;k\psi_n(k)&plus;\mathcal{O}(\Delta&space;k^2)&space;\end{align*}"></p>
 
 In addition, we do the same calculation as **&psi;<sub>n</sub>(k+e<sub>x</sub>&Delta;k)** to **&psi;<sub>n</sub>(k-e<sub>x</sub>&Delta;k)**:
-<p><img src="https://latex.codecogs.com/svg.latex?\fn_cm&space;z^\prime\equiv\psi_n^*(k)e^{\text&space;i\theta^\prime}\psi_n(k-e_x\Delta&space;k),\&space;\&space;\arg&space;z^\prime=\theta^\prime-\alpha\Delta&space;k&plus;\mathcal{O}(\Delta&space;k^2)"></p>
+<p><img src="https://latex.codecogs.com/svg.latex?\fn_cm&space;z^\prime\equiv\psi_n^*(k)e^{\text&space;i\theta^\prime}\psi_n(k-e_x\Delta&space;k),\&space;\&space;\arg&space;z^\prime=\theta^\prime-\alpha_x\Delta&space;k&plus;\mathcal{O}(\Delta&space;k^2)"></p>
+
+and use **arg z'** as an approximate value of **&theta;'**,
+<p><img src="https://latex.codecogs.com/gif.latex?\fn_cm&space;\begin{align*}&space;\psi_\text{approx}(k-e_x\Delta&space;k)&\equiv&space;e^{-\text&space;i\arg&space;z^\prime}e^{\text&space;i\theta^\prime}\psi_n(k-e_x\Delta&space;k)\\&space;&=\psi_n(k)-\Delta&space;k\frac{\partial}{\partial&space;x}\psi_n(k)&plus;\text&space;i\alpha_x\Delta&space;k\psi_n(k)&plus;\mathcal{O}(\Delta&space;k^2)&space;\end{align*}"></p>
+
+insert in the center difference formula,
+<p><img src="https://latex.codecogs.com/gif.latex?\fn_cm&space;\frac{\psi_\text{approx}(k&plus;e_x\Delta&space;k)-\psi_\text{approx}(k-e_x\Delta&space;k)}{2\Delta&space;k}=\frac{\partial}{\partial&space;x}\psi_n(k)&plus;\text&space;i\alpha_x\psi_n(k)&plus;\mathcal{O}(\Delta&space;k)"></p>
+
+
+memo
 
 We can also calculate the differential approximation from **&psi;<sub>n</sub>(k-e<sub>x</sub>&Delta;k)** and **&psi;<sub>n</sub>(k)**
 <p><img src="https://latex.codecogs.com/svg.latex?\fn_cm&space;\frac{\psi_n(k-e_x\Delta&space;k)-\psi_n(k)}{-\Delta&space;k}=\frac{\psi_n(k&plus;e_x\Delta&space;k)-\psi_n(k)}{\Delta&space;k}&plus;\mathcal{O}(\Delta&space;k)"></p>
