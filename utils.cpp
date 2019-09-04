@@ -126,7 +126,7 @@ void compositeMatrix(){
 	int interpretEquation_status;
 	for(i=0;i<N;i++){
 		for(j=0;j<N;j++){
-			//note matrix[j][i] is ok because of the difference of two-dimensional array in fortran and C
+			//note: matrix[j][i] is ok because of the difference of two-dimensional array in fortran and C
 			interpretEquation_status=interpretEquation(matrix_string[i][j],allParams_name,allParams_value,&matrix[j][i]);
 			if(interpretEquation_status!=1){
 				cout << "Error in compositeMatrix" << endl;
@@ -134,4 +134,24 @@ void compositeMatrix(){
 			}
 		}
 	}
+}
+
+
+void copy_zmatrix(complex<double>** dst, complex<double>** src, int N, int M){
+	int i,j;
+	for(i=0;i<N;i++){
+		for(j=0;j<M;j++){
+			dst[i][j]=src[i][j];
+		}
+	}
+}
+
+complex<double> zNorm(complex<double>* a, complex<double>* b, int N){
+	//return a^* \cdot b
+	complex<double> norm=(complex<double>(0,0));
+	int i;
+	for(i=0;i<N;i++){
+		norm+=conj(a[i])*b[i];
+	}
+	return norm;
 }
