@@ -34,7 +34,7 @@ int main(int argc, const char** argv){
 	//load input
 	int loadInput_status=loadInput(input,false);
 	if(loadInput_status==1){
-		cout << "Finished loading input" << endl;
+		cout << "#Finished loading input" << endl;
 	}else{
 		cout << "Failed in loading input" << endl;
 		return -1;

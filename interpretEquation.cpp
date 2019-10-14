@@ -1,6 +1,7 @@
 #include <complex>
 #include <string.h>
 #include <iostream>
+#include <cmath>
 #include "variables_ext.hpp"
 #include "utils.hpp"
 using namespace std;
@@ -158,7 +159,7 @@ bool isRealNumber(char* name){
 int getValue(char* name, char** params_name, complex<double>* params_value, char** auxParameter_name, complex<double>* auxParameter_value, int auxParameter_next, complex<double>* value){
 	//from params
 	int i;
-  for(i=0;i<N_params+4;i++){
+  for(i=0;i<N_params+3+mathConstants_count;i++){
 		if(strcmp(name,params_name[i])==0){
 			*value=params_value[i];
 			return 1;
@@ -211,16 +212,45 @@ int interpretEquation(char* equation, char** params_name, complex<double>* param
 		complex<double> result_inParentheses;
 		int inParentheses_status=interpretEquation(equation_inParentheses, params_name, params_value, &result_inParentheses);
 		if(inParentheses_status==1){
+			int length_beforeOpenParenthesis=0;
+			//if the letters before open parenthesis is (+-*/)(cos|sin|cis) or $(cos|sin|cis), interpret these mathematical function
+			//3-long math function
+			if((start>4 && isBinaryOperator(equation_current[start-4])) || start==3){
+				char mathFunc3[4];
+				strncpy(mathFunc3,&equation_current[start-3],3);
+				double result_realPart=result_inParentheses.real();
+				if(strncmp(mathFunc3,"cos",3)==0){
+					length_beforeOpenParenthesis=3;
+					result_inParentheses=complex<double>(cos(result_realPart),0);
+				}else if(strncmp(mathFunc3,"sin",3)==0){
+					length_beforeOpenParenthesis=3;
+					result_inParentheses=complex<double>(sin(result_realPart),0);
+				}else if(strncmp(mathFunc3,"cis",3)==0){
+					length_beforeOpenParenthesis=3;
+					result_inParentheses=complex<double>(cos(result_realPart),sin(result_realPart));
+				}
+			}
+			//4-long math function
+			if((start>5 && isBinaryOperator(equation_current[start-5])) || start==4){
+				char mathFunc4[5];
+				strncpy(mathFunc4,&equation_current[start-4],4);
+				double result_realPart=result_inParentheses.real();
+				if(strncmp(mathFunc4,"sqrt",4)==0){
+					length_beforeOpenParenthesis=4;
+					result_inParentheses=complex<double>(sqrt(result_realPart),0);
+				}
+			}
+			
 			//set to auxParameter
 			auxParameter_name[auxParameter_next]=new char[auxParameter_length+2];
 			setAuxParameterName((char**)auxParameter_name,auxParameter_next);
 			auxParameter_value[auxParameter_next]=result_inParentheses;
 			//replace the parentheses to new auxParameter
-			int newlen=strlen(equation_current)-(end-start+1)+(1+auxParameter_length)+1;
+			int newlen=strlen(equation_current)-(end-start+length_beforeOpenParenthesis+1)+(1+auxParameter_length)+1;
 			char* newEquation=new char[newlen];
 			int newidx=0;
 			//before start parenthesis
-			for(i=0;i<start;i++){
+			for(i=0;i<start-length_beforeOpenParenthesis;i++){
 				newEquation[newidx]=equation_current[i];
 				newidx++;
 			}

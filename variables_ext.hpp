@@ -13,6 +13,7 @@ extern char* realNumber_format;
 extern int auxParameter_length;
 extern char* auxParameter_letters;
 extern int auxParameter_count;
+extern int mathConstants_count;
 //variables
 extern int N, N_params;
 extern char** params_name;

@@ -12,6 +12,7 @@ char* realNumber_format; //output format of real number
 int auxParameter_length; //length of name of auxiliary parameter used in interpretation of matrix elements (without underscore)
 char* auxParameter_letters; //letters used in the name of auxiliary parameter
 int auxParameter_count; //max number of auxiliary parameter
+int mathConstants_count; //number of math constants
 //variables
 int N; //matrix size
 int N_params; //number of parameters

@@ -15,4 +15,5 @@ void initialize(){
 	auxParameter_length=4;
 	auxParameter_letters=(char*)"abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ";
 	auxParameter_count=256;
+	mathConstants_count=2;
 }

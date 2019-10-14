@@ -1,3 +1,4 @@
+#define _USE_MATH_DEFINES
 #include "variables_ext.hpp"
 #include <string.h>
 #include <iostream>
@@ -40,20 +41,22 @@ void setAuxParameterName(char** auxParameter_name, int auxParameter_next){
 }
 
 void addKI(){
-	allParams_name=new char*[N_params+4];
-	allParams_value=new complex<double>[N_params+4];
+	allParams_name=new char*[N_params+3+mathConstants_count];
+	allParams_value=new complex<double>[N_params+3+mathConstants_count];
 	allParams_name[0]=(char*)"kx";
 	allParams_name[1]=(char*)"ky";
 	allParams_name[2]=(char*)"kz";
 	allParams_name[3]=(char*)"I";
+	allParams_name[4]=(char*)"PI";
 	allParams_value[0]=complex<double>(0,0);
 	allParams_value[1]=complex<double>(0,0);
 	allParams_value[2]=complex<double>(0,0);
 	allParams_value[3]=complex<double>(0,1);
+	allParams_value[4]=complex<double>(M_PI,0);
 	int i;
 	for(i=0;i<N_params;i++){
-		allParams_name[i+4]=params_name[i];
-		allParams_value[i+4]=(complex<double>)params_value[i];
+		allParams_name[i+3+mathConstants_count]=params_name[i];
+		allParams_value[i+3+mathConstants_count]=(complex<double>)params_value[i];
 	}
 }
 
