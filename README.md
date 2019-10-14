@@ -16,7 +16,7 @@ No blank row should be put between each section.
 
 ### Parameters section (ll.1-(1+N_params))
 The first line of this section represents the number of parameters (```N_params```) and successive ```N_params``` rows represent the name and value of the parameters.
-You can't use, as names of parameters,**kx, ky, kz, I, PI, cos, sin, cis** and any string starting from **\_** (underscore) or including **+, -, \*, /, .** and numbers because they have specific meaning in interpretation of matrix elements.
+You can't use, as names of parameters,**kx, ky, kz, I, PI, cos, sin, cis** and any string starting from **\_** (underscore) or including **+, -, \*, /, .** because they have specific meaning in interpretation of matrix elements.
 ```
 2 #Number of parameters
 a 3.0  #Name and value of the first parameter
