@@ -5,6 +5,7 @@
 #include "variables_ext.hpp"
 #include "utils.hpp"
 using namespace std;
+int interpretEquation(char* equation, char** params_name, complex<double>* params_value, complex<double>* result);
 
 int findParentheses(char* equation, int* start, int* end){
 	//find outermost parentheses
@@ -165,6 +166,13 @@ int getValue(char* name, char** params_name, complex<double>* params_value, char
 			return 1;
 		}
 	}
+	//from equations
+	for(i=0;i<N_eqns;i++){
+		if(strcmp(name,eqns_name[i])==0){
+			interpretEquation(eqns_value[i],params_name,params_value,value);
+			return 1;
+		}
+	}
 	//from auxParams
 	for(i=0;i<auxParameter_next;i++){
 		if(strcmp(name,auxParameter_name[i])==0){
@@ -228,6 +236,9 @@ int interpretEquation(char* equation, char** params_name, complex<double>* param
 				}else if(strncmp(mathFunc3,"cis",3)==0){
 					length_beforeOpenParenthesis=3;
 					result_inParentheses=complex<double>(cos(result_realPart),sin(result_realPart));
+				}else if(strncmp(mathFunc3,"exp",3)==0){
+					length_beforeOpenParenthesis=3;
+					result_inParentheses=complex<double>(exp(result_realPart),0);
 				}
 			}
 			//4-long math function
@@ -235,10 +246,21 @@ int interpretEquation(char* equation, char** params_name, complex<double>* param
 				char mathFunc4[5];
 				strncpy(mathFunc4,&equation_current[start-4],4);
 				double result_realPart=result_inParentheses.real();
+				double result_imagPart=result_inParentheses.imag();
 				if(strncmp(mathFunc4,"sqrt",4)==0){
 					length_beforeOpenParenthesis=4;
 					result_inParentheses=complex<double>(sqrt(result_realPart),0);
+				}else if(strncmp(mathFunc4,"cosh",4)==0){
+					length_beforeOpenParenthesis=4;
+					result_inParentheses=complex<double>(cosh(result_realPart),0);
+				}else if (strncmp(mathFunc4,"sinh",4)==0){
+					length_beforeOpenParenthesis=4;
+					result_inParentheses=complex<double>(sinh(result_realPart),0);
+				} if (strncmp(mathFunc4,"conj",4)==0){
+					length_beforeOpenParenthesis=4;
+					result_inParentheses=complex<double>(result_realPart,-result_imagPart);
 				}
+
 			}
 			
 			//set to auxParameter
@@ -296,12 +318,12 @@ int interpretEquation(char* equation, char** params_name, complex<double>* param
 		//get the value of left and right
 		getValue_status=getValue(leftName,params_name,params_value,auxParameter_name,auxParameter_value,auxParameter_next,&leftValue);
 		if(getValue_status!=1){
-			cout << "Error in interpretEquation, getting value of " << leftName << "(left, */)" << endl;
+			cout << "Error in interpretEquation, getting value of " << leftName << " (left, */)" << endl;
 			return -1;
 		}
 		getValue_status=getValue(rightName,params_name,params_value,auxParameter_name,auxParameter_value,auxParameter_next,&rightValue);
 		if(getValue_status!=1){
-			cout << "Error in interpretEquation, getting value of " << rightName << "(right, */)"  << endl;
+			cout << "Error in interpretEquation, getting value of " << rightName << " (right, */)"  << endl;
 			return -1;
 		}
 

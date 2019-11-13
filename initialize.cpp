@@ -6,6 +6,7 @@ void initialize(){
 	format_length=256;
 	matrixElement_length=256;
 	parameter_length=32;
+	equation_length=256;
 	ordinalSuffix=new char*[4];
 	ordinalSuffix[0]=(char*)"st";
 	ordinalSuffix[1]=(char*)"nd";

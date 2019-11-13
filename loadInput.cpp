@@ -53,7 +53,42 @@ int loadInput(FILE* input, bool isEigen){
 		row++;
 	}
 
-	//(2+N_params)th line: matrix size N
+	//(2+N_params)th line: number of equations N_eqns
+	fgets_status=fgets(line,buffer_length,input);
+	if(fgets_status==NULL){
+		load_error(row);
+		return -1;
+	}
+	sscanf_status=sscanf(line, "%d", &N_eqns);
+	if(sscanf_status!=1){
+		parse_error(row);
+		return -1;
+	}
+	row++;
+	printf("#Number of equations: %d\n",N_eqns);
+
+	//(2+N_params+1)th to (2+N_params+N_eqns)th line: equations
+	eqns_name=new char*[N_eqns];
+	eqns_value=new char*[N_eqns];
+	for(i=0;i<N_eqns;i++){
+		fgets_status=fgets(line,buffer_length,input);
+		if(fgets_status==NULL){
+			load_error(row);
+			return -1;
+		}
+	  eqns_name[i]=new char[parameter_length];
+		eqns_value[i]=new char[equation_length];
+		sscanf_status=sscanf(line,"%s%s",eqns_name[i],eqns_value[i]);
+		if(sscanf_status!=2){
+			parse_error(row);
+			return -1;
+		}
+		printf("#%d%s equation: %s = %s\n",i+1,ordinalSuffix[ordinalSuffix_index(i+1)],eqns_name[i],eqns_value[i]);
+		row++;
+	}
+	
+	
+	//(3+N_params+N_eqns)th line: matrix size N
 	fgets_status=fgets(line,buffer_length,input);
 	if(fgets_status==NULL){
 		load_error(row);
@@ -67,7 +102,7 @@ int loadInput(FILE* input, bool isEigen){
 	row++;
 	printf("#Matrix size: %d\n",N);
 
-	//(2+N_params+1)th to (2+N_params+N)th line: matrix
+	//(3+N_params+N_eqns+1)th to (3+N_params+N_eqns+N)th line: matrix
 	matrix_string=new char**[N];
 	for(i=0;i<N;i++){
 		matrix_string[i]=new char*[N];
@@ -101,8 +136,8 @@ int loadInput(FILE* input, bool isEigen){
 		}
 	}
 	
-	//(3+N_params+N)th to (5+N_params+N)th line: k range for eigenvalu calculation (start, stop, split)
-	//in Berry curvature calculation, (6+N_params+N)th to (8+N_params+N)th line
+	//(4+N_params+N_eqns+N)th to (6+N_params+N_eqns+N)th line: k range for eigenvalu calculation (start, stop, split)
+	//in Berry curvature calculation, (7+N_params+N_eqns+N)th to (9+N_params+N_eqns+N)th line
 	//number of k points = split+1
 	//n-th k point = start+(stop-start)*(n-1)/split = (start*(split+1-n)+stop*(n-1))/split
 	//n=1,2,...,split+1
@@ -136,7 +171,7 @@ int loadInput(FILE* input, bool isEigen){
 		return 1;
 	}
 
-	//(9+N_params+N)th line: delta k
+	//(10+N_params+N_eqns+N)th line: delta k
 	fgets_status=fgets(line,buffer_length,input);
 	if(fgets_status==NULL){
 		load_error(row);

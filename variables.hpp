@@ -6,7 +6,8 @@ char* fileName_default; //default name of input file
 char** ordinalSuffix; //"st","nd","rd","th"
 int fileName_length; //max length of file name (including '\0')
 int matrixElement_length; //max length of matrix element string
-int parameter_length; //max length of paremeter name
+int parameter_length; //max length of parameter or equation name
+int equation_length; //max length of equation value
 int format_length; //max length of log output format
 char* realNumber_format; //output format of real number
 int auxParameter_length; //length of name of auxiliary parameter used in interpretation of matrix elements (without underscore)
@@ -16,8 +17,11 @@ int mathConstants_count; //number of math constants
 //variables
 int N; //matrix size
 int N_params; //number of parameters
+int N_eqns; //number of equations
 char** params_name; //array of names of parameters
 double* params_value; //array of values of parameters
+char** eqns_name; //array of names of equations
+char** eqns_value; //array of values of equations
 char*** matrix_string; //Hamiltonian matrix (string-form)
 double* k_start; //start of k range
 double* k_stop; //end of k range
