@@ -23,7 +23,19 @@ a 3.0  #Name and value of the first parameter
 b -2.0 #The second parameter
 ```
 
-### Matrix section (ll.(2+N_params)-(2+N_params+N))
+### Equations section (ll.(2+N_params)-(2+N_params+N_eqns))
+The first line of this section represents the number of equations (```N_eqns```) and successive ```N_eqns``` rows represent the name and value of the equations.
+You can use any representations other than the name of the equation itself.
+Be careful **not to cause circular reference**.
+
+Actually, the function of equations includes that of parameters.
+```
+2 #Number of equations
+func1 kx+I*ky #Name and value of the first equation
+func2 kx-I*ky #The second equation
+```
+
+### Matrix section (ll.(3+N_params+N_eqns)-(3+N_params+N_eqns+N))
 The first line of this section represents the size of the Hamiltonian matrix (```N```) and successive ```N``` rows represent the rows of the matrix.
 ```
 4 #Size of the Hamiltonian matrix
@@ -37,7 +49,7 @@ kx+I*ky (-1)*kz   0         (-1)*a-b  #The fourth row
   - When you use negative real numbers, you must enclose the number by parentheses to distinguish it from a minus operator (see the above example).
 - Since Hamiltonian matrix should be Hermite, only upper triangular part and diagonal component are used in diagonalization procedure. However you probably should write down also lower trianglular part so that the Hamiltonian matrix is clearly Hermite.
   
-### k range section for eigenvalue calculation (ll.(3+N_params+N)-(5+N_params+N))
+### k range section for eigenvalue calculation (ll.(4+N_params+N_eqns+N)-(6+N_params+N_eqns+N))
 These three lines in this section represent kx, ky, kz range of calculation.
 ```
 0  0 0  #kx range (double start, double stop, int split)
@@ -53,10 +65,10 @@ i=start, f=stop, d=(stop-start)/split, n=split+1
 ```
 If ```split``` is zero, calculation is done in case of **k=start**.
 
-### k range section for Berry curvature calculation (ll.(6+N_params+N)-(8+N_params+N))
+### k range section for Berry curvature calculation (ll.(7+N_params+N_eqns+N)-(9+N_params+N_eqns+N))
 The format is the same as above k range section.
 
-### Delta k section (l.(9+N_params+N), only for Berry curvature calculation)
+### Delta k section (l.(10+N_params+N_eqns+N), only for Berry curvature calculation)
 This section has only one row, representing **&Delta;k** (used in difference approximation).
 ```
 1e-2 #Delta k
