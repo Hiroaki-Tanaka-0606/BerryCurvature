@@ -16,7 +16,7 @@ No blank row should be put between each section.
 
 ### Parameters section (ll.1-(1+N_params))
 The first line of this section represents the number of parameters (```N_params```) and successive ```N_params``` rows represent the name and value of the parameters.
-You can't use, as names of parameters,**kx, ky, kz, I, PI, cos, sin, cis** and any string starting from **\_** (underscore) or including **+, -, \*, /, .** because they have specific meaning in interpretation of matrix elements.
+You can't use, as names of parameters,**kx, ky, kz, I, PI, cos, sin, cis, exp, sqrt, cosh, sinh, conj** and any string starting from **\_** (underscore) or including **+, -, \*, /, .** because they have specific meaning in interpretation of matrix elements.
 ```
 2 #Number of parameters
 a 3.0  #Name and value of the first parameter
@@ -45,7 +45,7 @@ kz      kx-I*ky   (-1)*a+b  0         #The third row
 kx+I*ky (-1)*kz   0         (-1)*a-b  #The fourth row
 ```
 - Several space letters are put between each matrix element and no space letter is put in one matrix element.
-- You can use **parameters** (defined in the parameters section), **kx, ky, kz** (coordinates of a wave vector), **I** (the imaginary unit), **PI** (pi), real numbers (**x.yy** format is ok, **x.yye+01** is not), **+, -, \*, /** (binary operators), **(, )** (parentheses), **cos** (cosine), **sin** (sine), **cis** (cos+I\*sin), **sqrt** (square root) when you specity matrix elements.
+- You can use **parameters** (defined in the parameters section), **kx, ky, kz** (coordinates of a wave vector), **I** (the imaginary unit), **PI** (pi), real numbers (**x.yy** format is ok, **x.yye+01** is not), **+, -, \*, /** (binary operators), **(, )** (parentheses), **cos** (cosine), **sin** (sine), **cis** (cos+I\*sin), **exp** (exponential), **sqrt** (square root), **cosh** (hyperbolic cosine), **sinh** (hyperbolic sine), and **conj** (complex conjugate) when you specity matrix elements.
   - When you use negative real numbers, you must enclose the number by parentheses to distinguish it from a minus operator (see the above example).
 - Since Hamiltonian matrix should be Hermite, only upper triangular part and diagonal component are used in diagonalization procedure. However you probably should write down also lower trianglular part so that the Hamiltonian matrix is clearly Hermite.
   
