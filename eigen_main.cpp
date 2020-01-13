@@ -61,6 +61,14 @@ int main(int argc, const char** argv){
 	int i,j,k,l;
 	double kx,ky,kz;
 	printf("#kx\tky\tkz\teigenvalues\n");
+	int Dimension=0;
+	for(i=0;i<3;i++){
+		if(k_split[i]>0){
+			Dimension++;
+		}
+	}
+
+	
 	for(i=0;i<=k_split[0];i++){
 		kx=kxList[i];
 		allParams_value[0]=(complex<double>)kx;
@@ -89,11 +97,11 @@ int main(int argc, const char** argv){
 				}
 				printf("\n");
 			}
-			if(k_split[2]!=0){
+			if(k_split[2]!=0 && Dimension>1){
 				printf("\n");
 			}
 		}
-		if(k_split[2]==0){
+		if(k_split[2]==0 && Dimension>1){
 			printf("\n");
 		}
 	}

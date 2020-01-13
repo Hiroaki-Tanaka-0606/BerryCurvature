@@ -193,16 +193,35 @@ int interpretEquation(char* equation, char** params_name, complex<double>* param
 	//cout << equation << endl;
 	char* auxParameter_name[auxParameter_count];
 	complex<double> auxParameter_value[auxParameter_count];
+	
+	//arguments (to be deleted)
+	//for first step
+	//auxParameter_name[i] is also to be deleted
+	char* equation_current=NULL;
+	char* equation_inParentheses=NULL;
+	char* newEquation=NULL;
+	//for second step
+	char* leftName=NULL;
+	char* rightName=NULL;
+
+	//need to be initialized before goto statement
+	complex<double> leftValue, rightValue;
+	complex<double> operatorResult;
+
+	//return status
+	//when error occurs, status is changed to -1
+	int status=1;
+	
 	int auxParameter_next=0;
 	//copy equation
-	char* equation_current=new char[strlen(equation)+1];
+	equation_current=new char[strlen(equation)+1]; //no need to use delete[] because of its first time to use "new"
 	strcpy(equation_current,equation);
-
+	
 	//initial step: if real number, set the value to the result
 	//To avoid error in parsing "-1"
 	if(isRealNumber(equation)){
 		*result=(complex<double>)atof(equation);
-		return 1;
+		goto FINALIZATION;
 	}
 	
 	//first step: resolve parentheses
@@ -213,7 +232,8 @@ int interpretEquation(char* equation, char** params_name, complex<double>* param
 	while(findParentheses_status==1){
 		//calculate inside of the outermost parentheses and set to auxParemeter
 		//set string inside of the outermost parentheses to equation_inParentheses
-		char* equation_inParentheses=new char[end-start];
+		delete[] equation_inParentheses;
+		equation_inParentheses=new char[end-start];
 		strncpy(equation_inParentheses,&equation_current[start+1],end-start-1);
 		equation_inParentheses[end-start-1]='\0';
 		//calculate inside
@@ -264,12 +284,13 @@ int interpretEquation(char* equation, char** params_name, complex<double>* param
 			}
 			
 			//set to auxParameter
-			auxParameter_name[auxParameter_next]=new char[auxParameter_length+2];
+			auxParameter_name[auxParameter_next]=new char[auxParameter_length+2]; //first time
 			setAuxParameterName((char**)auxParameter_name,auxParameter_next);
 			auxParameter_value[auxParameter_next]=result_inParentheses;
 			//replace the parentheses to new auxParameter
 			int newlen=strlen(equation_current)-(end-start+length_beforeOpenParenthesis+1)+(1+auxParameter_length)+1;
-			char* newEquation=new char[newlen];
+			delete[] newEquation;
+			newEquation=new char[newlen];
 			int newidx=0;
 			//before start parenthesis
 			for(i=0;i<start-length_beforeOpenParenthesis;i++){
@@ -286,11 +307,16 @@ int interpretEquation(char* equation, char** params_name, complex<double>* param
 				newEquation[newidx]=equation_current[i];
 				newidx++;
 			}
-			equation_current=(char*)newEquation;
+			newEquation[newidx]='\0';
+			
+			delete[] equation_current;
+			equation_current=new char[newlen];
+			strcpy(equation_current,newEquation);
 			auxParameter_next++;
 		}else{
 			cout << "Error in interpretEquation" << endl;
-			return -1;
+			status=-1;
+			goto FINALIZATION;
 		}
 		findParentheses_status=findParentheses(equation_current,&start,&end);
 	}
@@ -298,17 +324,14 @@ int interpretEquation(char* equation, char** params_name, complex<double>* param
 	//second step: calculate * and /
 	//find first * or /
 	int middle;
-	char* leftName;
-	char* rightName;
 	int getValue_status;
-	complex<double> leftValue, rightValue;
-	complex<double> operatorResult;
 	int findMulDivOperator_status;
 	int newlen, newidx;
-	char* newEquation;
 	findMulDivOperator_status=findMulDivOperator(equation_current,&start,&middle,&end);
 	while(findMulDivOperator_status==1){
 		//extract left and right name (real number or parameter)
+		delete[] leftName;
+		delete[] rightName;
 		leftName=new char[middle-start];
 		rightName=new char[end-middle];
 		strncpy(leftName,&equation_current[start+1],middle-start-1);
@@ -319,12 +342,14 @@ int interpretEquation(char* equation, char** params_name, complex<double>* param
 		getValue_status=getValue(leftName,params_name,params_value,auxParameter_name,auxParameter_value,auxParameter_next,&leftValue);
 		if(getValue_status!=1){
 			cout << "Error in interpretEquation, getting value of " << leftName << " (left, */)" << endl;
-			return -1;
+			status=-1;
+			goto FINALIZATION;
 		}
 		getValue_status=getValue(rightName,params_name,params_value,auxParameter_name,auxParameter_value,auxParameter_next,&rightValue);
 		if(getValue_status!=1){
 			cout << "Error in interpretEquation, getting value of " << rightName << " (right, */)"  << endl;
-			return -1;
+			status=-1;
+			goto FINALIZATION;
 		}
 
 		//cout << leftName << "=" << leftValue << "," << rightName << "=" << rightValue << endl;
@@ -342,6 +367,7 @@ int interpretEquation(char* equation, char** params_name, complex<double>* param
 		auxParameter_value[auxParameter_next]=operatorResult;
 		//replace the calculated region to new auxParameter
 		newlen=strlen(equation_current)-(end-start-1)+(1+auxParameter_length)+1;
+		delete[] newEquation;
 		newEquation=new char[newlen];
 		newidx=0;
 		//before start operator
@@ -359,7 +385,10 @@ int interpretEquation(char* equation, char** params_name, complex<double>* param
 			newEquation[newidx]=equation_current[i];
 			newidx++;
 		}
-		equation_current=(char*)newEquation;
+		newEquation[newidx]='\0';
+		delete[] equation_current;
+		equation_current=new char[newlen];
+		strcpy(equation_current,newEquation);
 		auxParameter_next++;
 		
 		findMulDivOperator_status=findMulDivOperator(equation_current,&start,&middle,&end);
@@ -371,6 +400,8 @@ int interpretEquation(char* equation, char** params_name, complex<double>* param
 	findAddSubOperator_status=findAddSubOperator(equation_current,&start,&middle,&end);
 	while(findAddSubOperator_status==1){
 		//extract left and right name (real number or parameter)
+		delete[] leftName;
+		delete[] rightName;
 		leftName=new char[middle-start];
 		rightName=new char[end-middle];
 		strncpy(leftName,&equation_current[start+1],middle-start-1);
@@ -381,12 +412,14 @@ int interpretEquation(char* equation, char** params_name, complex<double>* param
 		getValue_status=getValue(leftName,params_name,params_value,auxParameter_name,auxParameter_value,auxParameter_next,&leftValue);
 		if(getValue_status!=1){
 			cout << "Error in interpretEquation, getting value of " << leftName << "(left, +-)" << endl;
-			return -1;
+			status=-1;
+			goto FINALIZATION;
 		}
 		getValue_status=getValue(rightName,params_name,params_value,auxParameter_name,auxParameter_value,auxParameter_next,&rightValue);
 		if(getValue_status!=1){
 			cout << "Error in interpretEquation, getting value of " << rightName << "(right, +-)" << endl;
-			return -1;
+			status=-1;
+			goto FINALIZATION;
 		}
 
 		//cout << leftName << "=" << leftValue << "," << rightName << "=" << rightValue << endl;
@@ -404,6 +437,7 @@ int interpretEquation(char* equation, char** params_name, complex<double>* param
 		auxParameter_value[auxParameter_next]=operatorResult;
 		//replace the calculated region to new auxParameter
 		newlen=strlen(equation_current)-(end-start-1)+(1+auxParameter_length)+1;
+		delete[] newEquation;
 		newEquation=new char[newlen];
 		newidx=0;
 		//before start operator
@@ -421,9 +455,11 @@ int interpretEquation(char* equation, char** params_name, complex<double>* param
 			newEquation[newidx]=equation_current[i];
 			newidx++;
 		}
-		equation_current=(char*)newEquation;
+		newEquation[newidx]='\0';
+		delete[] equation_current;
+		equation_current=new char[newlen];
+		strcpy(equation_current,newEquation);
 		auxParameter_next++;
-		
 		findAddSubOperator_status=findAddSubOperator(equation_current,&start,&middle,&end);
 	}
 	
@@ -431,8 +467,21 @@ int interpretEquation(char* equation, char** params_name, complex<double>* param
 	getValue_status=getValue(equation_current,params_name,params_value,auxParameter_name,auxParameter_value,auxParameter_next,result);
 	if(getValue_status!=1){
 		cout << "Error in interpretEquation, getting value of " << equation_current << "(last)" << endl;
-		return -1;
+		status=-1;
+		goto FINALIZATION;
 	}
 	//cout << "interpretEquation result: " << *result << endl;
-	return 1;
+
+	//finalization: delete[]
+ FINALIZATION:
+	for(i=0;i<auxParameter_next;i+=1){
+		delete[] auxParameter_name[i];
+	}
+	delete[] equation_current;
+	delete[] equation_inParentheses;
+	delete[] newEquation;
+	delete[] leftName;
+	delete[] rightName;
+	return status;
+	
 }

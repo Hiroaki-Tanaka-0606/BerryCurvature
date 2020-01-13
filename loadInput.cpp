@@ -13,7 +13,7 @@ void parse_error(int row){
 
 int loadInput(FILE* input, bool isEigen){
 	//load input
-	char* line=new char[buffer_length];
+	char line[buffer_length];
 	char* fgets_status;
 	int sscanf_status;
 	int row=1;

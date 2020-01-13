@@ -64,23 +64,41 @@ int main(int argc, const char** argv){
 	
 	int i,j,k,l,m,n;
 	double kx,ky,kz;
-
+	int Dimension=0;
+	for(i=0;i<3;i++){
+		if(k_split[i]>0){
+			Dimension++;
+		}
+	}
+	
 	//eigenvector of k+Delta k, k, k-Delta k
 	complex<double>** psi_plus=alloc_zmatrix(N,N);
 	complex<double>** psi=alloc_zmatrix(N,N);
 	complex<double>** psi_minus=alloc_zmatrix(N,N);
 	//k gradient of psi(k) [xyz][eigenvalue order][vector index]
-	complex<double>*** grad_psi=new complex<double>**[3];
+	complex<double>** grad_psi[3];
 	for(i=0;i<3;i++){
 		grad_psi[i]=alloc_zmatrix(N,N);
 	}
 	
+
 	printf("#kx ky kz\t");
 	for(i=0;i<N;i++){
 		printf("Omega_x[%d] Omega_y[%d] Omega_z[%d]\t",i,i,i);
 	}
 	printf("\n");
 
+	char berryCurvatureOutput_format[format_length];
+	sprintf(berryCurvatureOutput_format,"%s %s %s\t",realNumber_format,realNumber_format,realNumber_format);
+	//z, z^\prime in Algorithm.md
+	complex<double> psi_norm, psi_norm_prime;
+	//psi_(plus|minus) value without phase difference
+	complex<double> psi_value_plus,psi_value_minus;
+
+	complex<double> k_default;
+	double phase_plus,phase_minus;
+	double omega_x,omega_y,omega_z;
+	
 	for(i=0;i<=k_split[0];i++){
 		kx=kxList[i];
 		allParams_value[0]=(complex<double>)kx;
@@ -100,7 +118,7 @@ int main(int argc, const char** argv){
 				
 				for(l=0;l<3;l++){
 					//calculate k[l] derivative of psi(k)
-					complex<double> k_default=allParams_value[l];
+				  k_default=allParams_value[l];
 					compositeMatrix();
 					zheev();
 					if(INFO!=0){
@@ -130,15 +148,11 @@ int main(int argc, const char** argv){
 					//reset k value
 					allParams_value[l]=k_default;
 
-					//z, z^\prime in Algorithm.md
-					complex<double> psi_norm, psi_norm_prime;
-					//psi_(plus|minus) value without phase difference
-					complex<double> psi_value_plus,psi_value_minus;
 					for(m=0;m<N;m++){
 						psi_norm=zNorm(psi[m],psi_plus[m],N);
 						psi_norm_prime=zNorm(psi[m],psi_minus[m],N);
-						double phase_plus=arg(psi_norm);
-						double phase_minus=arg(psi_norm_prime);
+					  phase_plus=arg(psi_norm);
+					  phase_minus=arg(psi_norm_prime);
 						for(n=0;n<N;n++){
 							psi_value_plus=exp(-(complex<double>(0,1))*phase_plus)*psi_plus[m][n];
 							psi_value_minus=exp(-(complex<double>(0,1))*phase_minus)*psi_minus[m][n];
@@ -148,24 +162,21 @@ int main(int argc, const char** argv){
 				}
 
 				//print Berry curvature
-				double omega_x,omega_y,omega_z;
 				for(m=0;m<N;m++){
 					//Berry curvature of m-th eigenvector
 					omega_x=-2*(zNorm(grad_psi[1][m],grad_psi[2][m],N).imag());
 					omega_y=-2*(zNorm(grad_psi[2][m],grad_psi[0][m],N).imag());
 					omega_z=-2*(zNorm(grad_psi[0][m],grad_psi[1][m],N).imag());
-					char berryCurvatureOutput_format[format_length];
-					sprintf(berryCurvatureOutput_format,"%s %s %s\t",realNumber_format,realNumber_format,realNumber_format);
 					printf(berryCurvatureOutput_format,omega_x,omega_y,omega_z);
 				}
 				
 				printf("\n");
 			}
-			if(k_split[2]!=0){
+			if(k_split[2]!=0 && Dimension>1){
 				printf("\n");
 			}
 		}
-		if(k_split[2]==0){
+		if(k_split[2]==0 && Dimension>1){
 			printf("\n");
 		}
 	}
