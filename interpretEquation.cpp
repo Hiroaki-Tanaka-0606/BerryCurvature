@@ -155,6 +155,7 @@ bool isRealNumber(char* name){
 			return false;
 		}
 	}
+	return true;
 }
 
 int getValue(char* name, char** params_name, complex<double>* params_value, char** auxParameter_name, complex<double>* auxParameter_value, int auxParameter_next, complex<double>* value){
