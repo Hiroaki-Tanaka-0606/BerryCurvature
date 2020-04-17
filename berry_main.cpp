@@ -30,6 +30,10 @@ int main(int argc, const char** argv){
 	}
 	cout << "#Input file: " << fileName << endl;
 	FILE* input=fopen(fileName,"r");
+	if(input==NULL){
+		cout << "Error in opening the input file" << endl;
+		return -1;
+	}
 
 	//load input
 	int loadInput_status=loadInput(input,false);
