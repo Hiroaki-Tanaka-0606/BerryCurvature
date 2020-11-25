@@ -13,7 +13,7 @@ extern int format_length;
 extern char* realNumber_format;
 extern int auxParameter_length;
 extern char* auxParameter_letters;
-extern int auxParameter_count;
+extern int auxParameter_maxCount;
 extern int mathConstants_count;
 //variables
 extern int N, N_params, N_eqns;
@@ -28,6 +28,9 @@ extern int* k_split;
 extern double delta_k;
 extern char** allParams_name;
 extern complex<double>* allParams_value;
+extern char** auxParameter_name;
+extern complex<double>* auxParameter_value;
+extern int auxParameter_count;
 //variables for zheev
 extern char JOBZ;
 extern char UPLO;
@@ -37,3 +40,6 @@ extern complex<double>* WORK;
 extern int LWORK;
 extern double* RWORK;
 extern int INFO;
+//variables for interpretEquation
+extern char* equation_inParentheses;
+extern char* newEquation;

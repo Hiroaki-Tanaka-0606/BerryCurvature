@@ -24,20 +24,24 @@ int ordinalSuffix_index(int n){
 	}
 	return 3;
 }
-void setAuxParameterName(char** auxParameter_name, int auxParameter_next){
+void setAuxParameterName(char** auxParameter_name, int auxParameter_count){
+	if(auxParameter_name[auxParameter_count]!=NULL){
+		return;
+	}
+	auxParameter_name[auxParameter_count]=new char[auxParameter_length+2];
 	int indices[auxParameter_length];
 	int i;
-	int index=auxParameter_next;
+	int index=auxParameter_count;
 	int len=strlen(auxParameter_letters);
 	for(i=0;i<auxParameter_length;i++){
 		indices[i]=index%len;
 		index/=len;
 	}
-	auxParameter_name[auxParameter_next][0]='_';
+	auxParameter_name[auxParameter_count][0]='_';
 	for(i=0;i<auxParameter_length;i++){
-		auxParameter_name[auxParameter_next][i+1]=auxParameter_letters[indices[auxParameter_length-i-1]];																											 
+		auxParameter_name[auxParameter_count][i+1]=auxParameter_letters[indices[auxParameter_length-i-1]];																											 
 	}
-	auxParameter_name[auxParameter_next][auxParameter_length+1]='\0';
+	auxParameter_name[auxParameter_count][auxParameter_length+1]='\0';
 }
 
 void addKI(){
@@ -130,7 +134,9 @@ void compositeMatrix(){
 	for(i=0;i<N;i++){
 		for(j=0;j<N;j++){
 			//note: matrix[j][i] is ok because of the difference of two-dimensional array in fortran and C
+			auxParameter_count=0;
 			interpretEquation_status=interpretEquation(matrix_string[i][j],allParams_name,allParams_value,&matrix[j][i]);
+			//cout << matrix[j][i] << endl;
 			if(interpretEquation_status!=1){
 				cout << "Error in compositeMatrix" << endl;
 				exit(1);
