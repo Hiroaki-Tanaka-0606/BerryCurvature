@@ -52,7 +52,7 @@ kx+I*ky (-1)*kz   0         (-1)*a-b  #The fourth row
 ### k basis vectors section (ll. (4+N_params+N_eqns+N)-(6+N_params+N_eqns+N))
 This section has been newly added in Dec. 2020.
 These three lines in this section define three basis vectors for k range designation.
-As the following example does, the equation format is allowed.
+As the following example does, the equation format is allowed, although using **kx**, **ky**, and **kz** is prohibited (definitely causes meaningless result).
 ```
 0      (-4)*PI/(sqrt(3)*a) 0      #kx, ky, and kz components of the first basis vector b_1
 2*PI/a (-2)*PI/(sqrt(3)*a) 0      #The second basis vector b_2
@@ -80,6 +80,7 @@ The format is the same as above k range section.
 
 ### Delta k section (l.(13+N_params+N_eqns+N), only for Berry curvature calculation)
 This section has only one row, representing **&Delta;k** (used in difference approximation).
+The equation format is allowed, although using **kx**, **ky**, and **kz** is prohibited (definitely causes meaningless result).
 ```
 1e-2*2*PI/a #Delta k
 ```
