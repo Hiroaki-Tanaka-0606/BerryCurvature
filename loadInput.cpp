@@ -124,6 +124,34 @@ int loadInput(FILE* input, bool isEigen){
 		row++;
 	}
 
+	//(4+N_params+N_eqns+N)th to (6+N_params+N_eqns+N)th line: k basis vectors (equation-form)
+	k_bases_string=new char**[3];
+	k_bases=new double*[3];
+	for(i=0;i<3;i++){
+		k_bases_string[i]=new char*[3];
+		for(j=0;j<3;j++){
+			k_bases_string[i][j]=new char[equation_length];
+		}
+		k_bases[i]=new double[3];
+	}
+		
+	for(i=0;i<3;i++){
+		fgets_status=fgets(line,buffer_length,input);
+		if(fgets_status==NULL){
+			load_error(row);
+			return -1;
+		}
+		sscanf_status=sscanf(line, "%s%s%s", k_bases_string[i][0], k_bases_string[i][1], k_bases_string[i][2]);
+		if(sscanf_status!=3){
+			parse_error(row);
+			return -1;
+		}
+		for(j=0;j<3;j++){
+			printf("#k_bases[%d][%d] = %s\n", i,j,k_bases_string[i][j]);
+		}
+		row++;
+	}
+
 	//if isEigen==false (calculation of Berry curvature), skip 3 rows (k range of eigenvalue calculation)
 	if(isEigen==false){
 		for(i=0;i<3;i++){
@@ -136,8 +164,8 @@ int loadInput(FILE* input, bool isEigen){
 		}
 	}
 	
-	//(4+N_params+N_eqns+N)th to (6+N_params+N_eqns+N)th line: k range for eigenvalu calculation (start, stop, split)
-	//in Berry curvature calculation, (7+N_params+N_eqns+N)th to (9+N_params+N_eqns+N)th line
+	//(7+N_params+N_eqns+N)th to (9+N_params+N_eqns+N)th line: k range for eigenvalu calculation (start, stop, split)
+	//in Berry curvature calculation, (10+N_params+N_eqns+N)th to (12+N_params+N_eqns+N)th line
 	//number of k points = split+1
 	//n-th k point = start+(stop-start)*(n-1)/split = (start*(split+1-n)+stop*(n-1))/split
 	//n=1,2,...,split+1
@@ -171,20 +199,19 @@ int loadInput(FILE* input, bool isEigen){
 		return 1;
 	}
 
-	//(10+N_params+N_eqns+N)th line: delta k
+	//(13+N_params+N_eqns+N)th line: delta k (equation-form)
+	delta_k_string=new char[equation_length];
 	fgets_status=fgets(line,buffer_length,input);
 	if(fgets_status==NULL){
 		load_error(row);
 		return -1;
 	}
-	sscanf_status=sscanf(line, "%lf", &delta_k);
+	sscanf_status=sscanf(line, "%s", delta_k_string);
 	if(sscanf_status!=1){
 		parse_error(row);
 		return -1;
 	}
-	char deltakOutput_format[format_length];
-	sprintf(deltakOutput_format,"#Delta k: %s\n",realNumber_format);
-	printf(deltakOutput_format,delta_k);
+	printf("#Delta k: %s\n", delta_k_string);
 	row++;
 	
 	return 1;

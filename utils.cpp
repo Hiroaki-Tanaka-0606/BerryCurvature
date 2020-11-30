@@ -145,6 +145,13 @@ void compositeMatrix(){
 	}
 }
 
+void compositeK(double k1, double k2, double k3){
+	int i;
+	for(i=0;i<3;i++){
+		allParams_value[i]=k1*k_bases[0][i]+k2*k_bases[1][i]+k3*k_bases[2][i];
+	}			
+}
+
 
 void copy_zmatrix(complex<double>** dst, complex<double>** src, int N, int M){
 	int i,j;

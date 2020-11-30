@@ -7,6 +7,7 @@
 #include "initialize.hpp"
 #include "utils.hpp"
 #include "lapack.hpp"
+#include "interpretEquation.hpp"
 using namespace std;
 
 int main(int argc, const char** argv){
@@ -46,13 +47,36 @@ int main(int argc, const char** argv){
 	//add kx, ky, kz, I to parameters
 	addKI();
 
+	//evaluation of basis vectors
+	//that of delta_k is only in berry_main.cpp
+	complex<double> evaluated_value;
+	int i,j,k,l;
+	int interpretEquation_status;
+	char evaluationOutput_format[format_length];
+	cout << "#Evaluation of k basis vectors" << endl;
+	for(i=0;i<3;i++){
+		for(j=0;j<3;j++){
+			interpretEquation_status=interpretEquation(k_bases_string[i][j],allParams_name,allParams_value,&evaluated_value);
+			if(interpretEquation_status!=1){
+				printf("Error in evaluating k_bases[%d][%d]",i,j);
+				return -1;
+			}else{
+				k_bases[i][j]=evaluated_value.real();
+				sprintf(evaluationOutput_format,"#k_bases[%%d][%%d]=%s\n",realNumber_format);
+				printf(evaluationOutput_format,i,j,k_bases[i][j]);
+			}
+		}
+	}
+	cout << "#Evaluation succeeded" << endl;
+
+	
 	//make k coordinates list
-	double* kxList;
-	double* kyList;
-	double* kzList;
-	makeKList(&kxList,0);
-	makeKList(&kyList,1);
-	makeKList(&kzList,2);
+	double* k1List;
+	double* k2List;
+	double* k3List;
+	makeKList(&k1List,0);
+	makeKList(&k2List,1);
+	makeKList(&k3List,2);
 
 	//eigenvalue calculation
 	//initialization
@@ -62,8 +86,7 @@ int main(int argc, const char** argv){
 		return -1;
 	}
 	
-	int i,j,k,l;
-	double kx,ky,kz;
+	double k1,k2,k3;
 	printf("#kx\tky\tkz\teigenvalues\n");
 	int Dimension=0;
 	for(i=0;i<3;i++){
@@ -74,14 +97,12 @@ int main(int argc, const char** argv){
 
 	
 	for(i=0;i<=k_split[0];i++){
-		kx=kxList[i];
-		allParams_value[0]=(complex<double>)kx;
+		k1=k1List[i];
 		for(j=0;j<=k_split[1];j++){
-			ky=kyList[j];
-			allParams_value[1]=(complex<double>)ky;
+			k2=k2List[j];
 			for(k=0;k<=k_split[2];k++){
-				kz=kzList[k];
-				allParams_value[2]=(complex<double>)kz;
+				k3=k3List[k];
+				compositeK(k1,k2,k3);
 
 				compositeMatrix();
 				zheev();
@@ -89,11 +110,11 @@ int main(int argc, const char** argv){
 					cout << "zheev error" << endl;
 					return -1;
 				}
-				printf(realNumber_format,kx);
+				printf(realNumber_format,allParams_value[0].real());
 				printf("\t");
-				printf(realNumber_format,ky);
+				printf(realNumber_format,allParams_value[1].real());
 				printf("\t");
-				printf(realNumber_format,kz);
+				printf(realNumber_format,allParams_value[2].real());
 				printf("\t");
 				for(l=0;l<N;l++){
 					printf(realNumber_format,W[l]);

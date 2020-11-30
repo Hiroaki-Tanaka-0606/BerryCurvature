@@ -23,9 +23,12 @@ double* params_value; //array of values of parameters
 char** eqns_name; //array of names of equations
 char** eqns_value; //array of values of equations
 char*** matrix_string; //Hamiltonian matrix (string-form)
+char*** k_bases_string; // basis vectors (string-form)
+double** k_bases; // basis vectors for k range
 double* k_start; //start of k range
 double* k_stop; //end of k range
 int* k_split; //how many pieces k range is split into
+char* delta_k_string; // delta k (string-form)
 double delta_k; //delta k in difference approximation
 char** allParams_name; //params_name + kx,ky,kz,I
 complex<double>* allParams_value; //params_value + kx,ky,kz,I
