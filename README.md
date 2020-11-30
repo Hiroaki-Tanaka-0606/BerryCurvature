@@ -48,13 +48,23 @@ kx+I*ky (-1)*kz   0         (-1)*a-b  #The fourth row
 - You can use **parameters** (defined in the parameters section), **kx, ky, kz** (coordinates of a wave vector), **I** (the imaginary unit), **PI** (pi), real numbers (**x.yy** format is ok, **x.yye+01** is not), **+, -, \*, /** (binary operators), **(, )** (parentheses), **cos** (cosine), **sin** (sine), **cis** (cos+I\*sin), **exp** (exponential), **sqrt** (square root), **cosh** (hyperbolic cosine), **sinh** (hyperbolic sine), and **conj** (complex conjugate) when you specity matrix elements.
   - When you use negative real numbers, you must enclose the number by parentheses to distinguish it from a minus operator (see the above example).
 - Since Hamiltonian matrix should be Hermite, only upper triangular part and diagonal component are used in diagonalization procedure. However you probably should write down also lower trianglular part so that the Hamiltonian matrix is clearly Hermite.
-  
-### k range section for eigenvalue calculation (ll.(4+N_params+N_eqns+N)-(6+N_params+N_eqns+N))
-These three lines in this section represent kx, ky, kz range of calculation.
+
+### k basis vectors section (ll. (4+N_params+N_eqns+N)-(6+N_params+N_eqns+N))
+This section has been newly added in Dec. 2020.
+These three lines in this section define three basis vectors for k range designation.
+As the following example does, the equation format is allowed.
 ```
-0  0 0  #kx range (double start, double stop, int split)
--1 1 10 #ky range
--2 2 20 #kz range
+0      (-4)*PI/(sqrt(3)*a) 0      #kx, ky, and kz components of the first basis vector b_1
+2*PI/a (-2)*PI/(sqrt(3)*a) 0      #The second basis vector b_2
+0      0                   2*PI/c #The third basis vector b_3
+```
+
+### k range section for eigenvalue calculation (ll.(7+N_params+N_eqns+N)-(9+N_params+N_eqns+N))
+These three lines in this section represent k range of calculation in the format of b<sub>1</sub>, b<sub>2</sub>, and b<sub>3</sub> components.
+```
+0  0 0  #b_1 range (double start, double stop, int split)
+-1 1 10 #b_2 range
+-2 2 20 #b_3 range
 ```
 This program split the range **[start, stop]** into ```split``` pieces and calculation is done in ```split```+1 points.
 ```
@@ -65,11 +75,11 @@ i=start, f=stop, d=(stop-start)/split, n=split+1
 ```
 If ```split``` is zero, calculation is done in case of **k=start**.
 
-### k range section for Berry curvature calculation (ll.(7+N_params+N_eqns+N)-(9+N_params+N_eqns+N))
+### k range section for Berry curvature calculation (ll.(10+N_params+N_eqns+N)-(12+N_params+N_eqns+N))
 The format is the same as above k range section.
 
-### Delta k section (l.(10+N_params+N_eqns+N), only for Berry curvature calculation)
+### Delta k section (l.(13+N_params+N_eqns+N), only for Berry curvature calculation)
 This section has only one row, representing **&Delta;k** (used in difference approximation).
 ```
-1e-2 #Delta k
+1e-2*2*PI/a #Delta k
 ```
