@@ -82,5 +82,5 @@ The format is the same as above k range section.
 This section has only one row, representing **&Delta;k** (used in difference approximation).
 The equation format is allowed, although using **kx**, **ky**, and **kz** is prohibited (definitely causes meaningless result).
 ```
-1e-2*2*PI/a #Delta k
+0.001*2*PI/a #Delta k
 ```
