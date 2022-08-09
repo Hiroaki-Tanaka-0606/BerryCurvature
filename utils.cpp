@@ -107,6 +107,42 @@ complex<double>** alloc_zmatrix(int n, int m){
 	}
   return mat;
 }
+double** alloc_dmatrix(int n, int m){
+  int i;
+  double** mat;
+  mat = (double**)malloc((size_t)(m * sizeof(double*)));
+  if (mat == NULL) {
+    cout << "Error: allocation failed in alloc_dmatrix" << endl;
+		exit(1);
+  }
+  mat[0] = (double*)malloc((size_t)(m * n * sizeof(double)));
+  if (mat[0] == NULL) {
+    cout << "Error: allocation failed in alloc_dmatrix" << endl;
+    exit(1);
+  }
+  for (i=1;i<m;i++){
+		mat[i] = mat[i-1] + n;
+	}
+  return mat;
+}
+int** alloc_imatrix(int n, int m){
+  int i;
+  int** mat;
+  mat = (int**)malloc((size_t)(m * sizeof(int*)));
+  if (mat == NULL) {
+    cout << "Error: allocation failed in alloc_imatrix" << endl;
+		exit(1);
+  }
+  mat[0] = (int*)malloc((size_t)(m * n * sizeof(int)));
+  if (mat[0] == NULL) {
+    cout << "Error: allocation failed in alloc_imatrix" << endl;
+    exit(1);
+  }
+  for (i=1;i<m;i++){
+		mat[i] = mat[i-1] + n;
+	}
+  return mat;
+}
 
 double* alloc_dvector(int n){
   double *vec;
@@ -140,6 +176,39 @@ void compositeMatrix(){
 			if(interpretEquation_status!=1){
 				cout << "Error in compositeMatrix" << endl;
 				exit(1);
+			}
+		}
+	}
+}
+
+void compositeMatrix_HWR(){
+	int i,j,r,s1,s2;
+	complex<double> mat_element;
+	for(i=0;i<N;i++){
+		for(j=0;j<N;j++){
+			matrix[j][i]=complex<double>(0,0);
+		}
+	}
+	double R[3];
+	double KR;
+	for(r=0; r<HWRSize; r++){
+		// (kx, ky, kz)=allParams_value[0, 1, 2]
+		// R[i]=HWRLattice[j][i]*RCoordinate[r]
+		for(s1=0; s1<3; s1++){
+			R[s1]=0;
+			for(s2=0; s2<3; s2++){
+				R[s1]+=HWRLattice[s2][s1]*RCoordinate[r][s2];
+			}
+		}
+		KR=0.0;
+		for(s1=0; s1<3; s1++){
+			KR+=R[s1]*allParams_value[s1].real();
+		}
+		complex<double> cisKR(cos(KR), sin(KR));
+		for(i=0;i<N;i++){
+			for(j=0;j<N;j++){
+				//note: matrix[j][i] is ok because of the difference of two-dimensional array in fortran and C
+				matrix[j][i]+=cisKR*HWRMatrix[r][i][j];
 			}
 		}
 	}

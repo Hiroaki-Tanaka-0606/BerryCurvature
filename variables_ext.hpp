@@ -46,3 +46,8 @@ extern int INFO;
 //variables for interpretEquation
 extern char* equation_inParentheses;
 extern char* newEquation;
+//variables for HWR matrix
+extern complex<double>*** HWRMatrix;
+extern double** HWRLattice;
+extern int** RCoordinate;
+extern int HWRSize;
